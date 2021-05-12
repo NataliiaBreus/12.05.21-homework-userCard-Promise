@@ -9,7 +9,7 @@ function createUserCards(user){
     {classNames: ["cardWrapper"]},
     createElement (
       "article",
-      {className: ["cardContainer"]},
+      {classNames: ["cardContainer"]},
       createImageWrapper (user),
       createContentContainer(user)
     )
@@ -99,21 +99,9 @@ function createContentContainer({firstName, lastName, contacts}) {
   createElement (
     "p",
     {classNames: ["cardContacts"] },
-    ...createSocialLinks(contacts, SOCIAL_ICONS_MAP)
+    ...createLink(contacts, SOCIAL_ICONS_MAP)
   )
   );
-}
-
-function createSocialLinks (contacts = [], social = {}) {
-  const result = [];
-  if (contacts.length === 0) return;
-  for (const link of contacts) {
-    const url = new URL (link);
-    if (Object.keys(social).includes(url.host)) {
-      result.push(creatLink(url /*, social*/, ));
-    }
-  }
-  return result;
 }
 
 function createLink(contacts) {
@@ -154,4 +142,5 @@ function stringToColor(str) {
  }
  return colour;
 }
+
 
