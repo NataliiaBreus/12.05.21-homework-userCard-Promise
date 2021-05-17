@@ -1,7 +1,11 @@
 'use strict';
 const cardsContainer = document.getElementById("root");
-const cardElements = responseData.map((user) => createUserCards(user));
-cardsContainer.append(...cardElements);
+
+fetch('../../data.json').then(response => response.json()).then((data)=>{
+  const cardElements = responseData.map((user) => createUserCards(user));
+  cardsContainer.append(...cardElements);
+}).catch((e) =>console.log(e));
+
 
 function createUserCards(user){
   return createElement (
@@ -47,16 +51,23 @@ function createUserCards(user){
 
 function createCardImage(link) {
   const img = createElement ("img", {
-    classNames: ["cardImage"],
-    handlers: {
-      error: handleImageError,
-      load: handleImageLoad,
-    }
+    classNames: ["cardImage"]
   });
   img.src = link;
   img.hidden = true;
-
+  loadImage(img).then(handleImageLoad).catch(handleImageError);
   return img;
+}
+
+function loadImage(img) {
+  return new Promise((resolve, reject) => {
+    img.addEventListener ("load", () => {
+      resolve(img);
+    });
+    img.addEventListener("error", () => {
+      reject(img);
+    });
+  });
 }
 
 function createImageWrapper ({
